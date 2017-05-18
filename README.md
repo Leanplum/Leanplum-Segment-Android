@@ -93,24 +93,28 @@ To upload a new version to jCenter or mavenCentral we use bintray.com.
   bintrayUser=benmarten
   bintrayApiKey= [...]
   ```
-1. Checkout a new release branch from develop:
+2. Checkout a new release branch from develop:
   
   ```bash
-  git checkout develop
-  git checkout -b release/NEW_VERSION
+  git flow release start "NEW_VERSION"
   ```
-1. Run the bump version script:
+3. Run the bump version script:
   
   ```bash
-  sh bump_version.sh
+  ./bump_version.sh OLD_VERSION NEW_VERSION
   ```
-1. Run gradle build & upload scripts
+4. Run gradle build & upload scripts
   
   ```bash
   ./gradle install
   ./gradle bintrayUpload
   ```
-1. Go to bintray.com to double check your new release.
+5. Go to bintray.com to double check your new release.
+6. Finish release:
+  
+  ```bash
+  git flow release finish "NEW_VERSION"
+  ```
 
 ## License
 See LICENSE file.
