@@ -18,7 +18,7 @@ modules build.gradle file:
 ```groovy
 dependencies {
   compile 'com.segment.analytics.android:analytics:4.0.4'
-  compile 'com.leanplum.segment:LeanplumIntegration:{{LP_SEG_VERSION}}'
+  compile 'com.leanplum.segment:LeanplumIntegration:1.1.1-SNAPSHOT'
 }
 ```
 Please add at least the following permissions to your applications AndroidManifest.xml:
@@ -76,7 +76,7 @@ We have included unit tests for the integration.
 ## Install Specific Version of SDK's
 By default this integration pulls in the latest versions of the Leanplum SDK and the Segment SDK. If you rather want to use a specific version, simply exclude them from the integration and specify the required versions in your build.gradle file directly.
 ```groovy
-compile('com.leanplum.segment:LeanplumIntegration:{{LP_SEG_VERSION}}') {
+compile('com.leanplum.segment:LeanplumIntegration:1.1.1-SNAPSHOT') {
     exclude group: 'com.segment.analytics.android', module: 'analytics'
     exclude group: 'com.leanplum', module: 'Leanplum'
 }
@@ -93,24 +93,28 @@ To upload a new version to jCenter or mavenCentral we use bintray.com.
   bintrayUser=benmarten
   bintrayApiKey= [...]
   ```
-1. Checkout a new release branch from develop:
+2. Checkout a new release branch from develop:
   
   ```bash
-  git checkout develop
-  git checkout -b release/NEW_VERSION
+  git flow release start "NEW_VERSION"
   ```
-1. Run the bump version script:
+3. Run the bump version script:
   
   ```bash
-  sh bump_version.sh
+  ./bump_version.sh OLD_VERSION NEW_VERSION
   ```
-1. Run gradle build & upload scripts
+4. Run gradle build & upload scripts
   
   ```bash
   ./gradle install
   ./gradle bintrayUpload
   ```
-1. Go to bintray.com to double check your new release.
+5. Go to bintray.com to double check your new release.
+6. Finish release:
+  
+  ```bash
+  git flow release finish "NEW_VERSION"
+  ```
 
 ## License
 See LICENSE file.
