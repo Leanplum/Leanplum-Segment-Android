@@ -26,9 +26,9 @@ android {
 
 dependencies {
     //noinspection GradleDynamicVersion
-    provided 'com.segment.analytics.android:analytics:[4.0,5.0['
+    compileOnly 'com.segment.analytics.android:analytics:[4.0,5.0['
     //noinspection GradleDynamicVersion
-    compile 'com.leanplum:Leanplum:[1.0,3.0['
+    implementation 'com.leanplum:Leanplum:[1.0,3.0['
 }
 
 install {

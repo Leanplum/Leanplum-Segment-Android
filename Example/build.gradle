@@ -21,21 +21,20 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:27.0.2'
+    implementation 'com.android.support:appcompat-v7:27.0.2'
 
-    compile 'com.segment.analytics.android:analytics:4.3.1'
-    compile project(':LeanplumIntegration')
+    implementation 'com.segment.analytics.android:analytics:4.3.1'
+    implementation project(':LeanplumIntegration')
 
-    testCompile 'junit:junit:4.12'
-    testCompile('org.robolectric:robolectric:3.0') {
+    testImplementation 'junit:junit:4.12'
+    testImplementation('org.robolectric:robolectric:3.0') {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
-    testCompile 'org.mockito:mockito-core:1.10.19'
-    testCompile "org.powermock:powermock-module-junit4:1.6.6"
-    testCompile "org.powermock:powermock-module-junit4-rule:1.6.6"
-    testCompile "org.powermock:powermock-api-mockito:1.6.6"
-    testCompile "org.powermock:powermock-classloading-xstream:1.6.6"
-    testCompile 'com.segment.analytics.android:analytics-tests:4.0.4'
+    testImplementation 'org.mockito:mockito-core:1.10.19'
+    testImplementation "org.powermock:powermock-module-junit4:1.6.6"
+    testImplementation "org.powermock:powermock-module-junit4-rule:1.6.6"
+    testImplementation "org.powermock:powermock-api-mockito:1.6.6"
+    testImplementation "org.powermock:powermock-classloading-xstream:1.6.6"
+    testImplementation 'com.segment.analytics.android:analytics-tests:4.0.4'
 }
