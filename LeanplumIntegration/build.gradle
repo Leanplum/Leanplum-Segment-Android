@@ -6,12 +6,12 @@ group = project.bintrayGroupId
 version = project.bintrayPackageVersion
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.2"
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 27
         versionCode 1
         versionName project.bintrayPackageVersion
     }

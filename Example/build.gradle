@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.2"
 
     defaultConfig {
         applicationId "com.leanplum.android.segment"
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 27
         versionCode 1
         versionName project.bintrayPackageVersion
     }
@@ -17,14 +17,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    return Void;
+    return Void
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:appcompat-v7:27.0.2'
 
-    compile 'com.segment.analytics.android:analytics:4.0.4'
+    compile 'com.segment.analytics.android:analytics:4.3.1'
     compile project(':LeanplumIntegration')
 
     testCompile 'junit:junit:4.12'
@@ -33,9 +33,9 @@ dependencies {
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
     testCompile 'org.mockito:mockito-core:1.10.19'
-    testCompile "org.powermock:powermock-module-junit4:1.6.5"
-    testCompile "org.powermock:powermock-module-junit4-rule:1.6.5"
-    testCompile "org.powermock:powermock-api-mockito:1.6.5"
-    testCompile "org.powermock:powermock-classloading-xstream:1.6.5"
+    testCompile "org.powermock:powermock-module-junit4:1.6.6"
+    testCompile "org.powermock:powermock-module-junit4-rule:1.6.6"
+    testCompile "org.powermock:powermock-api-mockito:1.6.6"
+    testCompile "org.powermock:powermock-classloading-xstream:1.6.6"
     testCompile 'com.segment.analytics.android:analytics-tests:4.0.4'
 }
