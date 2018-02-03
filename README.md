@@ -87,12 +87,7 @@ compile 'com.leanplum:Leanplum:1.2.+'
 ## Deploy to jCenter and mavenCentral
 To upload a new version to jCenter or mavenCentral we use bintray.com.
 
-1. Get your API Key from bintray.com (See Left Menu in Edit Profile) and add it to your `~/.gradle/gradle.properties` file, e.g.:
-  
-  ```groovy
-  bintrayUser=benmarten
-  bintrayApiKey= [...]
-  ```
+1. Get your API Key from bintray.com (See Left Menu in Edit Profile) and save it like this: `<userid>:<api-key>` in ~/.bintray-login
 2. Checkout a new release branch from develop:
   
   ```bash
@@ -107,9 +102,10 @@ To upload a new version to jCenter or mavenCentral we use bintray.com.
   
   ```bash
   ./gradle install
-  ./gradle bintrayUpload
+  export NEW_VERSION=1.1.1
+  ./publish.sh com.leanplum.segment Leanplum-Segment $NEW_VERSION $HOME/.m2/repository/com/leanplum/segment/LeanplumIntegration/$NEW_VERSION/LeanplumIntegration-$NEW_VERSION.pom
   ```
-5. Go to bintray.com to double check your new release.
+5. Go to bintray.com to double check your new release, then publish it on bintray!
 6. Finish release:
   
   ```bash
