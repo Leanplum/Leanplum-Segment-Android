@@ -76,7 +76,7 @@ We have included unit tests for the integration.
 ## Install Specific Version of SDK's
 By default this integration pulls in the latest versions of the Leanplum SDK and the Segment SDK. If you rather want to use a specific version, simply exclude them from the integration and specify the required versions in your build.gradle file directly.
 ```groovy
-compile('com.leanplum.segment:LeanplumIntegration:1.1.1-SNAPSHOT') {
+compile('com.leanplum.segment:LeanplumIntegration:1.1.1') {
     exclude group: 'com.segment.analytics.android', module: 'analytics'
     exclude group: 'com.leanplum', module: 'Leanplum'
 }
@@ -87,12 +87,7 @@ compile 'com.leanplum:Leanplum:1.2.+'
 ## Deploy to jCenter and mavenCentral
 To upload a new version to jCenter or mavenCentral we use bintray.com.
 
-1. Get your API Key from bintray.com (See Left Menu in Edit Profile) and add it to your `~/.gradle/gradle.properties` file, e.g.:
-  
-  ```groovy
-  bintrayUser=benmarten
-  bintrayApiKey= [...]
-  ```
+1. Get your API Key from bintray.com (See Left Menu in Edit Profile) and save it like this: `<userid>:<api-key>` in ~/.bintray-login
 2. Checkout a new release branch from develop:
   
   ```bash
@@ -107,9 +102,10 @@ To upload a new version to jCenter or mavenCentral we use bintray.com.
   
   ```bash
   ./gradle install
-  ./gradle bintrayUpload
+  export NEW_VERSION=1.1.1
+  ./publish.sh com.leanplum.segment Leanplum-Segment $NEW_VERSION $HOME/.m2/repository/com/leanplum/segment/LeanplumIntegration/$NEW_VERSION/LeanplumIntegration-$NEW_VERSION.pom
   ```
-5. Go to bintray.com to double check your new release.
+5. Go to bintray.com to double check your new release, then publish it on bintray!
 6. Finish release:
   
   ```bash
