@@ -24,8 +24,6 @@ import com.segment.analytics.integrations.TrackPayload;
 public class LeanplumIntegration extends Integration {
 
   public static final String LEANPLUM_SEGMENT_KEY = "Leanplum";
-  private Logger logger;
-
   public static final Factory FACTORY = new Factory() {
     @Override
     public Integration<?> create(ValueMap settings, Analytics analytics) {
@@ -52,54 +50,69 @@ public class LeanplumIntegration extends Integration {
       return LEANPLUM_SEGMENT_KEY;
     }
   };
+  private Logger logger;
 
   public LeanplumIntegration(Application application, String appId, String key,
-                             Logger logger, Boolean isDevelopmentMode
-  ) {
-    this.logger = logger;
-    logger.verbose("Registering Leanplum Integration, appId: %s, key: %s, " +
-        "devMode: %b", appId, key, isDevelopmentMode);
+      Logger logger, Boolean isDevelopmentMode) {
+    try {
+      this.logger = logger;
+      logger.verbose("Registering Leanplum Integration, appId: %s, key: %s, " +
+          "devMode: %b", appId, key, isDevelopmentMode);
 
-    if (isDevelopmentMode) {
-      Leanplum.setAppIdForDevelopmentMode(appId, key);
-    } else {
-      Leanplum.setAppIdForProductionMode(appId, key);
+      if (isDevelopmentMode) {
+        Leanplum.setAppIdForDevelopmentMode(appId, key);
+      } else {
+        Leanplum.setAppIdForProductionMode(appId, key);
+      }
+
+      LeanplumActivityHelper.enableLifecycleCallbacks(application);
+      Leanplum.start(application);
+      logger.verbose("Leanplum started.");
+    } catch (Throwable t) {
+      logger.error(t, "Failed to start Leanplum Segment Integration.");
     }
-
-    LeanplumActivityHelper.enableLifecycleCallbacks(application);
-    Leanplum.start(application);
-    logger.verbose("Leanplum started.");
   }
 
   @Override
   public void identify(final IdentifyPayload identify) {
-    logger.verbose("Identify: %s", identify);
-    // Set user ID & map traits to user attributes
-    Leanplum.setUserAttributes(identify.userId(), identify.traits());
+    try {
+      logger.verbose("Identify: %s", identify);
+      // Set user ID & map traits to user attributes
+      Leanplum.setUserAttributes(identify.userId(), identify.traits());
+    } catch (Throwable t) {
+      logger.error(t, "Failed to set user attributes.");
+    }
   }
 
   @Override
   public void track(TrackPayload track) {
-    logger.verbose("Track: %s", track);
-    // Since Leanplum has value field that can be associated with any event,
-    // we have to extract that field from Segment and send it with our event as a value.
-    Double value = 0.0D;
+    try {
+      logger.verbose("Track: %s", track);
+      // Since Leanplum has value field that can be associated with any event,
+      // we have to extract that field from Segment and send it with our event as a value.
+      Double value = 0.0D;
 
-    if (track.properties() != null) {
-      value = track.properties().getDouble("value", 0.0D);
-    }
+      if (track.properties() != null) {
+        value = track.properties().getDouble("value", 0.0D);
+      }
 
-    if (value != 0.0D) {
-      Leanplum.track(track.event(), value, track.properties());
-    } else {
-      Leanplum.track(track.event(), track.properties());
+      if (value != 0.0D) {
+        Leanplum.track(track.event(), value, track.properties());
+      } else {
+        Leanplum.track(track.event(), track.properties());
+      }
+    } catch (Throwable t) {
+      logger.error(t, "Failed to track event with Leanplum.");
     }
   }
 
   @Override
   public void screen(ScreenPayload screen) {
-    logger.verbose("Screen: %s", screen);
-    Leanplum.advanceTo(screen.event(), screen.properties());
+    try {
+      logger.verbose("Screen: %s", screen);
+      Leanplum.advanceTo(screen.event(), screen.properties());
+    } catch (Throwable t) {
+      logger.error(t, "Failed to screen event with Leanplum.");
+    }
   }
-
 }

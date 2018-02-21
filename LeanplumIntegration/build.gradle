@@ -6,12 +6,12 @@ group = project.bintrayGroupId
 version = project.bintrayPackageVersion
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.2"
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 27
         versionCode 1
         versionName project.bintrayPackageVersion
     }
@@ -26,9 +26,9 @@ android {
 
 dependencies {
     //noinspection GradleDynamicVersion
-    provided 'com.segment.analytics.android:analytics:4.+'
+    compileOnly 'com.segment.analytics.android:analytics:[4.0,5.0['
     //noinspection GradleDynamicVersion
-    compile 'com.leanplum:Leanplum:+'
+    implementation 'com.leanplum:Leanplum:[1.0,3.0['
 }
 
 install {
