@@ -13,7 +13,7 @@ version=${3}
 
 bintray_login=$(cat ~/.bintray-login)
 group_subdir=$(echo "$groupid" | tr . /)
-reporoot=https://api.bintray.com/content/leanplum/maven/${package}/${version}/${group_subdir}/${package}/${version}
+reporoot=https://api.bintray.com/content/leanplum/maven/${package}/${version}/${group_subdir}/${version}
 
 shift 3
 

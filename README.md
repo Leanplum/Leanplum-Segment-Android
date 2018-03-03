@@ -103,7 +103,8 @@ To upload a new version to jCenter or mavenCentral we use bintray.com.
   ```bash
   ./gradle install
   export NEW_VERSION=1.1.1
-  ./publish.sh com.leanplum.segment Leanplum-Segment $NEW_VERSION $HOME/.m2/repository/com/leanplum/segment/LeanplumIntegration/$NEW_VERSION/LeanplumIntegration-$NEW_VERSION.pom
+  ./publish.sh com.leanplum.segment.LeanplumIntegration Leanplum-Segment $NEW_VERSION $HOME/.m2/repository/com/leanplum/segment/LeanplumIntegration/$NEW_VERSION/LeanplumIntegration-$NEW_VERSION.pom
+  ./publish.sh com.leanplum.segment.LeanplumIntegration Leanplum-Segment $NEW_VERSION $HOME/.m2/repository/com/leanplum/segment/LeanplumIntegration/$NEW_VERSION/LeanplumIntegration-$NEW_VERSION.aar
   ```
 5. Go to bintray.com to double check your new release, then publish it on bintray!
 6. Finish release:
