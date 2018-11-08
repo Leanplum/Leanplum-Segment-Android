@@ -21,14 +21,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    return Void;
+    return Void
 }
 
 dependencies {
     //noinspection GradleDynamicVersion
     compileOnly 'com.segment.analytics.android:analytics:[4.0,5.0['
     //noinspection GradleDynamicVersion
-    implementation 'com.leanplum:Leanplum:[1.0,3.0['
+    implementation project(":AndroidSDKCore")
 }
 
 install {

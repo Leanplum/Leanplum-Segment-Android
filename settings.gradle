@@ -1,3 +1,5 @@
 include ':LeanplumIntegration'
 include ':Example'
 
+include ':AndroidSDKCore'
+project(":AndroidSDKCore").projectDir = new File("../Leanplum-Android-SDK/AndroidSDKCore")
