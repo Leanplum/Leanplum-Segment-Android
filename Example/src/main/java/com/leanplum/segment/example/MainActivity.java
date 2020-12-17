@@ -3,11 +3,10 @@
 package com.leanplum.segment.example;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
 import com.leanplum.Leanplum;
-import com.leanplum.LeanplumPushService;
 import com.leanplum.segment.LeanplumIntegration;
 import com.segment.analytics.Analytics;
 import com.segment.analytics.Properties;
@@ -22,8 +21,6 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-
-    LeanplumPushService.setGcmSenderId(LeanplumPushService.LEANPLUM_SENDER_ID);
 
     // Create an analytics client with the given context and Segment write key.
     Analytics analytics = new Analytics
@@ -51,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     Properties properties = new Properties()
         .putValue("plan", "Enterprise");
     Analytics.with(getApplicationContext()).track("Signed up", properties);
-    Analytics.with(getApplicationContext()).screen("Main", "Start");
+    Analytics.with(getApplicationContext()).screen("Start");
   }
 
   public void trackButtonClicked(View view) {

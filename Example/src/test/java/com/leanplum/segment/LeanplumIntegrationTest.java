@@ -5,7 +5,9 @@ package com.leanplum.segment;
 import android.app.Application;
 
 import com.leanplum.Leanplum;
+import com.leanplum.segment.example.BuildConfig;
 import com.segment.analytics.Analytics;
+import com.segment.analytics.Properties;
 import com.segment.analytics.Traits;
 import com.segment.analytics.ValueMap;
 import com.segment.analytics.integrations.IdentifyPayload;
@@ -26,20 +28,23 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.rule.PowerMockRule;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.util.HashMap;
 
 import static com.segment.analytics.Utils.createTraits;
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyDouble;
+import static org.mockito.Matchers.anyMap;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-@RunWith(RobolectricGradleTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
 @PrepareForTest(Leanplum.class)
@@ -57,7 +62,7 @@ public class LeanplumIntegrationTest {
 
   @Before
   public void setUp() {
-    initMocks(this); // initializes the mockes objecs by annoation
+    initMocks(this); // initializes the mocked objects by annotation
     mockStatic(Leanplum.class);
     logger = Logger.with(Analytics.LogLevel.DEBUG);
     when(analytics.logger("Leanplum")).thenReturn(logger);
@@ -103,15 +108,36 @@ public class LeanplumIntegrationTest {
     Traits traits = createTraits("foo").putEmail("foo@bar.com");
 
     TrackPayload trackPayload =
-        new TrackPayloadBuilder().traits(traits).build();
+        new TrackPayloadBuilder().event("event").traits(traits).build();
 
-    PowerMockito.doNothing().when(Leanplum.class, "track", anyString(), anyString());
+    PowerMockito.doNothing().when(Leanplum.class, "track", anyString(), anyMap());
     Leanplum.track(trackPayload.event(), trackPayload.properties());
 
-    trackPayload.properties().putValue(10);
-    PowerMockito.doNothing().when(Leanplum.class, "track", anyString(), anyDouble(), anyString());
     integration.track(trackPayload);
+
     PowerMockito.verifyStatic(Mockito.times(2));
+    Leanplum.track(eq("event"), any(Properties.class));
+  }
+
+  @Test
+  public void trackWithValue() throws Exception {
+    Traits traits = createTraits("foo").putEmail("foo@bar.com");
+    Properties props = new Properties();
+    props.putValue(10);
+
+    TrackPayload trackPayload =
+        new TrackPayloadBuilder().event("event").traits(traits).properties(props).build();
+
+    PowerMockito.doNothing().when(Leanplum.class, "track", anyString(), anyDouble(), anyString());
+    Leanplum.track(
+        trackPayload.event(),
+        trackPayload.properties().getDouble("value", 0),
+        trackPayload.properties());
+
+    integration.track(trackPayload);
+
+    PowerMockito.verifyStatic(Mockito.times(2));
+    Leanplum.track(eq("event"), eq(10D), eq(props));
   }
 
   @Test

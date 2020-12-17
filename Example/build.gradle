@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.2"
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
 
     defaultConfig {
         applicationId "com.leanplum.android.segment"
         minSdkVersion 15
-        targetSdkVersion 27
+        targetSdkVersion 29
         versionCode 1
         versionName project.bintrayPackageVersion
     }
@@ -17,13 +17,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    return Void
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
-dependencies {
-    implementation 'com.android.support:appcompat-v7:27.0.2'
+def SEGMENT_SDK_VERSION = '4.9.0'
+def LEANPLUM_SDK_VERSION = '5.5.0'
 
-    implementation 'com.segment.analytics.android:analytics:4.3.1'
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+
+    implementation "com.segment.analytics.android:analytics:${SEGMENT_SDK_VERSION}"
+    implementation "com.leanplum:leanplum-core:${LEANPLUM_SDK_VERSION}"
     implementation project(':LeanplumIntegration')
 
     testImplementation 'junit:junit:4.12'
@@ -36,5 +43,5 @@ dependencies {
     testImplementation "org.powermock:powermock-module-junit4-rule:1.6.6"
     testImplementation "org.powermock:powermock-api-mockito:1.6.6"
     testImplementation "org.powermock:powermock-classloading-xstream:1.6.6"
-    testImplementation 'com.segment.analytics.android:analytics-tests:4.0.4'
+    testImplementation "com.segment.analytics.android:analytics-tests:${SEGMENT_SDK_VERSION}"
 }
