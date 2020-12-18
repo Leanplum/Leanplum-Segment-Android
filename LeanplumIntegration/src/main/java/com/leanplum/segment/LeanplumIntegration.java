@@ -115,4 +115,9 @@ public class LeanplumIntegration extends Integration {
       logger.error(t, "Failed to screen event with Leanplum.");
     }
   }
+
+  @Override
+  public void flush() {
+    // no implementation, because Segment is flushing on a number of events instead of time
+  }
 }
