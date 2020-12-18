@@ -1,4 +1,4 @@
-// Copyright 2016, Leanplum, Inc.
+// Copyright 2020, Leanplum, Inc.
 
 package com.leanplum.segment;
 
