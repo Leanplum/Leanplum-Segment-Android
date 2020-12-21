@@ -1,17 +1,17 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
 
 group = project.bintrayGroupId
 version = project.bintrayPackageVersion
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.2"
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 27
+        targetSdkVersion 29
         versionCode 1
         versionName project.bintrayPackageVersion
     }
@@ -21,43 +21,50 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    return Void;
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     //noinspection GradleDynamicVersion
     compileOnly 'com.segment.analytics.android:analytics:[4.0,5.0['
     //noinspection GradleDynamicVersion
-    implementation 'com.leanplum:Leanplum:[1.0,3.0['
+    implementation 'com.leanplum:leanplum-core:[5.0,6.0['
 }
 
-install {
-    repositories.mavenInstaller {
-        pom.project {
-            name project.bintrayArtifactId
-            description project.bintrayDescription
-            url 'https://github.com/' + project.bintrayGithub
+afterEvaluate {
+    publishing {
+        publications {
+            aar(MavenPublication) {
+                groupId project.bintrayGroupId
+                version project.bintrayPackageVersion
+                artifactId project.bintrayArtifactId
 
-            packaging 'aar'
-            groupId project.bintrayGroupId
-            artifactId project.bintrayArtifactId
-            version project.bintrayPackageVersion
+                // Apply the component for the release build variant
+                from components.release
 
-            licenses {
-                license {
-                    name 'The Apache Software License, Version 2.0'
-                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    distribution 'repo'
-                }
-            }
-            scm {
-                connection 'https://github.com/' + project.bintrayGithub + '.git'
-                url 'https://github.com/' + project.bintrayGithub
-
-            }
-            developers {
-                developer {
-                    name project.bintrayAuthor
+                pom {
+                    packaging = 'aar'
+                    name = project.bintrayArtifactId
+                    description = project.bintrayDescription
+                    url = 'https://github.com/' + project.bintrayGithub
+                    licenses {
+                        license {
+                            name = 'The Apache Software License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                            distribution = 'repo'
+                        }
+                    }
+                    developers {
+                        developer {
+                            name = project.bintrayAuthor
+                        }
+                    }
+                    scm {
+                        url = 'https://github.com/' + project.bintrayGithub
+                    }
                 }
             }
         }
@@ -65,9 +72,9 @@ install {
 }
 
 bintray {
-    user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
-    key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
-    configurations = ['archives']
+    user = project.bintrayUser
+    key = project.bintrayApiKey
+    publications = ['aar']
     pkg {
         repo = 'maven'
         name = project.bintrayPackageName
@@ -78,28 +85,15 @@ bintray {
         websiteUrl = 'https://github.com/' + project.bintrayGithub
         licenses = ['Apache-2.0']
         githubRepo = project.bintrayGithub
-        githubReleaseNotesFile = 'README.md'
-        issueTrackerUrl = 'https://github.com/' + project.bintrayGithub +
-        '/issues'
+        issueTrackerUrl = 'https://github.com/' + project.bintrayGithub + '/issues'
         publicDownloadNumbers = false
-        //noinspection GroovyAssignabilityCheck
+
         version {
             name = project.bintrayPackageVersion
             desc = project.bintrayDescription
+            released = new Date()
             vcsTag = project.bintrayPackageVersion
-            //Optional configuration for GPG signing
-            gpg {
-                sign = true
-            }
-            //Optional configuration for Maven Central sync of the version
-            mavenCentralSync {
-                sync = false //Optional (true by default). Determines whether to
-                // sync the version to Maven Central.
-                user = 'userToken' //OSS user token
-                password = 'paasword' //OSS user password
-                close = '1'
-                //Optional property. By default the staging repository is closed and artifacts are released to Maven Central. You can optionally turn this behaviour off (by puting 0 as value) and release the version manually.
-            }
         }
+        publish = true
     }
 }

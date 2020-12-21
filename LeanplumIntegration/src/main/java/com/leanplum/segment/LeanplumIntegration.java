@@ -1,4 +1,4 @@
-// Copyright 2016, Leanplum, Inc.
+// Copyright 2020, Leanplum, Inc.
 
 package com.leanplum.segment;
 
@@ -114,5 +114,10 @@ public class LeanplumIntegration extends Integration {
     } catch (Throwable t) {
       logger.error(t, "Failed to screen event with Leanplum.");
     }
+  }
+
+  @Override
+  public void flush() {
+    // no implementation, because Segment is flushing on a number of events instead of time
   }
 }
