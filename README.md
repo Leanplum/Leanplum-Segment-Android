@@ -2,23 +2,12 @@
 A Segment integration for the Leanplum Android SDK.
 
 ## Installation
-To install the Leanplum SDK, please add the following maven url to your project build.gradle file:
-```groovy
-allprojects {
-    repositories {
-        jcenter()
-        maven {
-          url "http://www.leanplum.com/leanplum-sdks/"
-        }
-    }
-}
-```
 To install the Leanplum Segment integration, simply add these lines to your
 modules build.gradle file:
 ```groovy
 dependencies {
-  compile 'com.segment.analytics.android:analytics:4.0.4'
-  compile 'com.leanplum.segment:LeanplumIntegration:1.1.0'
+  implementation 'com.segment.analytics.android:analytics:4.9.0'
+  implementation 'com.leanplum.segment:LeanplumIntegration:1.1.2'
 }
 ```
 Please add at least the following permissions to your applications AndroidManifest.xml:
@@ -76,41 +65,16 @@ We have included unit tests for the integration.
 ## Install Specific Version of SDK's
 By default this integration pulls in the latest versions of the Leanplum SDK and the Segment SDK. If you rather want to use a specific version, simply exclude them from the integration and specify the required versions in your build.gradle file directly.
 ```groovy
-compile('com.leanplum.segment:LeanplumIntegration:1.1.1') {
+implementation('com.leanplum.segment:LeanplumIntegration:1.1.1') {
     exclude group: 'com.segment.analytics.android', module: 'analytics'
     exclude group: 'com.leanplum', module: 'Leanplum'
 }
-compile 'com.segment.analytics.android:analytics:4.0.0'
-compile 'com.leanplum:Leanplum:1.2.+'
+implementation 'com.segment.analytics.android:analytics:4.9.0'
+implementation 'com.leanplum:leanplum-core:5.5.0'
 ```
 
-## Deploy to jCenter and mavenCentral
-To upload a new version to jCenter or mavenCentral we use bintray.com.
-
-1. Get your API Key from bintray.com (See Left Menu in Edit Profile) and save it like this: `<userid>:<api-key>` in ~/.bintray-login
-2. Checkout a new release branch from develop:
-  
-  ```bash
-  git flow release start "NEW_VERSION"
-  ```
-3. Run the bump version script:
-  
-  ```bash
-  ./bump_version.sh OLD_VERSION NEW_VERSION
-  ```
-4. Run gradle build & upload scripts
-  
-  ```bash
-  ./gradle install
-  export NEW_VERSION=1.1.1
-  ./publish.sh com.leanplum.segment Leanplum-Segment $NEW_VERSION $HOME/.m2/repository/com/leanplum/segment/LeanplumIntegration/$NEW_VERSION/LeanplumIntegration-$NEW_VERSION.pom
-  ```
-5. Go to bintray.com to double check your new release, then publish it on bintray!
-6. Finish release:
-  
-  ```bash
-  git flow release finish "NEW_VERSION"
-  ```
+## Deploy to jCenter
+To upload a new version to jCenter refer to the [SDK Release Process](https://leanplum.atlassian.net/wiki/spaces/E2/pages/723779761) docs.
 
 ## License
 See LICENSE file.
