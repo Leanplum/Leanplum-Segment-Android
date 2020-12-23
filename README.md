@@ -65,7 +65,7 @@ We have included unit tests for the integration.
 ## Install Specific Version of SDK's
 By default this integration pulls in the latest versions of the Leanplum SDK and the Segment SDK. If you rather want to use a specific version, simply exclude them from the integration and specify the required versions in your build.gradle file directly.
 ```groovy
-implementation('com.leanplum.segment:LeanplumIntegration:1.1.1') {
+implementation('com.leanplum.segment:LeanplumIntegration:1.1.2') {
     exclude group: 'com.segment.analytics.android', module: 'analytics'
     exclude group: 'com.leanplum', module: 'Leanplum'
 }
