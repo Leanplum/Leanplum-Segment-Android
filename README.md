@@ -73,8 +73,8 @@ implementation 'com.segment.analytics.android:analytics:4.9.0'
 implementation 'com.leanplum:leanplum-core:5.5.0'
 ```
 
-## Deploy to jCenter
-To upload a new version to jCenter refer to the [SDK Release Process](https://leanplum.atlassian.net/wiki/spaces/E2/pages/723779761) docs.
+## Deploy
+To upload a new version refer to the [SDK Release Process](https://leanplum.atlassian.net/wiki/spaces/E2/pages/723779761) docs.
 
 ## License
 See LICENSE file.
