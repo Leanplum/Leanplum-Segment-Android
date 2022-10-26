@@ -5,17 +5,23 @@
 ####################################################################
 
 version = $(shell cat sdk-version.txt)
-gradleArgs = -PbintrayPackageVersion=$(version) -PbintrayUser=$(user) -PbintrayApiKey=$(key)
+gradleArgs = -PbintrayPackageVersion=$(version) -PartifactoryUser=$(artifactoryUser) -PartifactoryPassword=$(artifactoryPass) -PsonatypeOssrhUser=$(sonatypeUser) -PsonatypeOsshrPassword=$(sonatypePassword) -PsonatypeSigningKeyPassword=$(keyPass) -PsonatypeSigningKeyBase64=$(keyBase64)
 
 verifyArguments:
-	test $(user) || (echo "\nArgument missing: user=YOUR-BINTRAY-USERNAME\n" ; exit 1)
-	test $(key) || (echo "\nArgument missing: key=YOUR-BINTRAY-API-KEY\n" ; exit 1)
+	test $(artifactoryUser) || (echo "\nArgument missing: artifactoryUser\n" ; exit 1)
+	test $(artifactoryPass) || (echo "\nArgument missing: artifactoryPass\n" ; exit 1)
+	test $(sonatypeUser) || (echo "\nArgument missing: sonatypeUser\n" ; exit 1)
+	test $(sonatypePassword) || (echo "\nArgument missing: sonatypePassword\n" ; exit 1)
+	test $(keyPass) || (echo "\nArgument missing: keyPass\n" ; exit 1)
+	test $(keyBase64) || (echo "\nArgument missing: keyBase64\n" ; exit 1)
 
 tagCommit:
 	git tag $(version)
 	git push origin $(version)
 
-bintrayDeploy:
-	./gradlew $(gradleArgs) assembleRelease generatePomFileForAarPublication bintrayUpload
+deployPackage:
+	./gradlew $(gradleArgs) assembleRelease generatePomFileForAarPublication artifactoryPublish publishAarPublicationToSonatypeRepository
 
-deploy: verifyArguments tagCommit bintrayDeploy
+deploy: verifyArguments deployPackage
+# TODO uncomment to add tag
+# deploy: verifyArguments tagCommit deployPackage
