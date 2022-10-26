@@ -1,17 +1,18 @@
-apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'maven-publish'
+plugins {
+    id 'com.android.library'
+    id 'com.jfrog.artifactory' version '4.13.0'
+    id 'maven-publish'
+    id 'signing'
+}
 
 group = project.bintrayGroupId
 version = project.bintrayPackageVersion
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 31
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 29
         versionCode 1
         versionName project.bintrayPackageVersion
     }
@@ -31,7 +32,7 @@ dependencies {
     //noinspection GradleDynamicVersion
     compileOnly 'com.segment.analytics.android:analytics:[4.0,5.0['
     //noinspection GradleDynamicVersion
-    implementation 'com.leanplum:leanplum-core:[5.0,6.0['
+    implementation 'com.leanplum:leanplum-core:[5.0,7.0['
 }
 
 afterEvaluate {
@@ -68,32 +69,48 @@ afterEvaluate {
                 }
             }
         }
+
+        repositories {
+            maven {
+                name = "sonatype"
+                url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+
+                credentials {
+                    username = project.sonatypeOssrhUser
+                    password = project.sonatypeOsshrPassword
+                }
+            }
+        }
     }
 }
 
-bintray {
-    user = project.bintrayUser
-    key = project.bintrayApiKey
-    publications = ['aar']
-    pkg {
-        repo = 'maven'
-        name = project.bintrayPackageName
-        userOrg = project.bintrayUserOrg
-        desc = project.description
-        labels = project.bintrayLabels
-        vcsUrl = 'https://github.com/' + project.bintrayGithub + '.git'
-        websiteUrl = 'https://github.com/' + project.bintrayGithub
-        licenses = ['Apache-2.0']
-        githubRepo = project.bintrayGithub
-        issueTrackerUrl = 'https://github.com/' + project.bintrayGithub + '/issues'
-        publicDownloadNumbers = false
+artifactory {
+    contextUrl = 'https://repo.leanplum.com'
+    publish {
+        repository {
+            repoKey = '/'
 
-        version {
-            name = project.bintrayPackageVersion
-            desc = project.bintrayDescription
-            released = new Date()
-            vcsTag = project.bintrayPackageVersion
+            username = project.artifactoryUser
+            password = project.artifactoryPassword
         }
-        publish = true
+        defaults {
+            publications('aar')
+            publishArtifacts = true
+
+            properties = ['qa.level': 'basic', 'q.os': 'android', 'dev.team': 'core']
+            publishPom = true
+        }
     }
+}
+
+signing {
+    def signingKey = null
+    def signingKeyBase64 = project.sonatypeSigningKeyBase64
+    if (signingKeyBase64 != null) {
+        signingKey = new String(Base64.getDecoder().decode((String) signingKeyBase64))
+    }
+    def signingPassword = project.sonatypeSigningKeyPassword
+
+    useInMemoryPgpKeys(signingKey, signingPassword)
+    sign publishing.publications
 }

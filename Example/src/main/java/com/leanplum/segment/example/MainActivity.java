@@ -1,4 +1,4 @@
-// Copyright 2020, Leanplum, Inc.
+// Copyright 2022, Leanplum, Inc.
 
 package com.leanplum.segment.example;
 
@@ -7,6 +7,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.leanplum.Leanplum;
+import com.leanplum.internal.Log.Level;
 import com.leanplum.segment.LeanplumIntegration;
 import com.segment.analytics.Analytics;
 import com.segment.analytics.Properties;
@@ -21,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+
+    Leanplum.setLogLevel(Level.DEBUG);
 
     // Create an analytics client with the given context and Segment write key.
     Analytics analytics = new Analytics
