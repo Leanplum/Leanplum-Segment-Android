@@ -7,7 +7,7 @@ modules build.gradle file:
 ```groovy
 dependencies {
   implementation 'com.segment.analytics.android:analytics:4.9.0'
-  implementation 'com.leanplum.segment:LeanplumIntegration:1.1.2'
+  implementation 'com.leanplum.segment:LeanplumIntegration:1.2.0'
 }
 ```
 Please add at least the following permissions to your applications AndroidManifest.xml:
@@ -65,16 +65,16 @@ We have included unit tests for the integration.
 ## Install Specific Version of SDK's
 By default this integration pulls in the latest versions of the Leanplum SDK and the Segment SDK. If you rather want to use a specific version, simply exclude them from the integration and specify the required versions in your build.gradle file directly.
 ```groovy
-implementation('com.leanplum.segment:LeanplumIntegration:1.1.2') {
+implementation('com.leanplum.segment:LeanplumIntegration:1.2.0') {
     exclude group: 'com.segment.analytics.android', module: 'analytics'
     exclude group: 'com.leanplum', module: 'Leanplum'
 }
 implementation 'com.segment.analytics.android:analytics:4.9.0'
-implementation 'com.leanplum:leanplum-core:5.5.0'
+implementation 'com.leanplum:leanplum-core:6.0.0'
 ```
 
 ## Deploy
-To upload a new version refer to the [SDK Release Process](https://leanplum.atlassian.net/wiki/spaces/E2/pages/723779761) docs.
+To upload a new version refer to the [SDK Release Process](https://wizrocket.atlassian.net/wiki/spaces/E2/pages/3618572675/SDK+Release+Process+Jul+2020) docs.
 
 ## License
 See LICENSE file.
