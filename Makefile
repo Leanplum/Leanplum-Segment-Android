@@ -22,6 +22,4 @@ tagCommit:
 deployPackage:
 	./gradlew $(gradleArgs) assembleRelease generatePomFileForAarPublication artifactoryPublish publishAarPublicationToSonatypeRepository
 
-deploy: verifyArguments deployPackage
-# TODO uncomment to add tag
-# deploy: verifyArguments tagCommit deployPackage
+deploy: verifyArguments tagCommit deployPackage

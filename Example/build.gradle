@@ -21,6 +21,11 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
+repositories {
+    maven {
+        url "https://repo.leanplum.com/"
+    }
+}
 
 def SEGMENT_SDK_VERSION = '4.9.0'
 def LEANPLUM_SDK_VERSION = '6.0.0'
@@ -31,6 +36,7 @@ dependencies {
     implementation "com.segment.analytics.android:analytics:${SEGMENT_SDK_VERSION}"
     implementation "com.leanplum:leanplum-core:${LEANPLUM_SDK_VERSION}"
     implementation project(':LeanplumIntegration')
+//    implementation 'com.leanplum.segment:LeanplumIntegration:1.1.3-beta1'
 
     testImplementation 'junit:junit:4.13'
     testImplementation('org.robolectric:robolectric:4.3.1') {
