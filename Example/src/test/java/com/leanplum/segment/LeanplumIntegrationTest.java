@@ -1,11 +1,10 @@
-// Copyright 2020, Leanplum, Inc.
+// Copyright 2022, Leanplum, Inc.
 
 package com.leanplum.segment;
 
 import android.app.Application;
 
 import com.leanplum.Leanplum;
-import com.leanplum.segment.example.BuildConfig;
 import com.segment.analytics.Analytics;
 import com.segment.analytics.Properties;
 import com.segment.analytics.Traits;
@@ -45,8 +44,19 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
-@PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
+@Config(sdk = 16)
+@PowerMockIgnore({
+    "org.mockito.*",
+    "org.robolectric.*",
+    "org.json.*",
+    "org.powermock.*",
+    "android.*",
+    "javax.net.ssl.*",
+    "javax.xml.*",
+    "org.xml.sax.*",
+    "org.w3c.dom.*",
+    "jdk.internal.reflect.*"
+})
 @PrepareForTest(Leanplum.class)
 public class LeanplumIntegrationTest {
   @Rule

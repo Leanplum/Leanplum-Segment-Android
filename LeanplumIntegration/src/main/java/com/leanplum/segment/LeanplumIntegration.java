@@ -59,6 +59,7 @@ public class LeanplumIntegration extends Integration {
       logger.verbose("Registering Leanplum Integration, appId: %s, key: %s, " +
           "devMode: %b", appId, key, isDevelopmentMode);
 
+      Leanplum.setApplicationContext(application);
       if (isDevelopmentMode) {
         Leanplum.setAppIdForDevelopmentMode(appId, key);
       } else {
